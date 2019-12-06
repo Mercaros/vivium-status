@@ -27,9 +27,11 @@ class Timer extends Component {
 
       gameStatus(){
         axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-        axios.get(`https://vivium.azurewebsites.net/attempts/current`)
-        .then(res => {
-            this.setState({gameInprogress: res.data})
+        this.setState({ gameFinished: true});
+        const {gameFinished} = this.state;
+
+        axios.post(`https://vivium.azurewebsites.net/attempts/Finished`,{gameFinished	})
+        .then(res => {  
         })
       }
     
@@ -53,14 +55,12 @@ class Timer extends Component {
         </div>
     }
 }
-//Ajax call
-const Ajax = () => <span>Ajax call</span>;
 
 
 const renderer = ({minutes, seconds, milliseconds, completed }) => {
     if (completed) {
       // Render a completed state
-      return <Ajax />;
+      gameStatus();
     } else {
       // Render a countdown
       return <span>{minutes}:{seconds}:{milliseconds}</span>;
